@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'presentation/ui/catalog_screen.dart';
+import 'presentation/ui/screens/catalog_screen.dart';
 
 void main() {
   runApp(const ProviderScope(child: BeddingApp()));

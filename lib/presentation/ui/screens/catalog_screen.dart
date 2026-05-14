@@ -1,38 +1,50 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:postelnoe_app/presentation/providers/catalog_provider.dart';
 import 'package:postelnoe_app/presentation/providers/order_provider.dart';
-import '../../domain/entities/fabric.dart';
-import '../../data/datasources/mock_data.dart'; // тестовые данные
+import '../../../domain/entities/fabric.dart';
 
 class CatalogScreen extends ConsumerWidget {
   const CatalogScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final Set<String> categories = mockFabrics.map((f) => f.materialName).toSet();
-    final List<String> tabs = categories.toList();
+    final asyncFabrics = ref.watch(catalogProvider);
 
-    return DefaultTabController(
-      length: tabs.length, // количество вкладок = количеству материалов
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Каталог тканей'),
-          bottom: TabBar(
-            isScrollable: true, 
-            tabs: tabs.map((name) => Tab(text: name)).toList(),
-          ),
-        ),
-        body: TabBarView(
-          // для каждой вкладки свой экран
-          children: tabs.map((categoryName) {
-            final categoryFabrics = mockFabrics
-                .where((fabric) => fabric.materialName == categoryName)
-                .toList();
-
-            return _FabricGrid(fabrics: categoryFabrics);
-          }).toList(),
-        ),
+    return asyncFabrics.when(
+      loading: () => const Scaffold(
+        body: Center(child: CircularProgressIndicator()),
       ),
+      error: (error, stackTrace) => Scaffold(
+        body: Center(child: Text('Что-то пошло не так: $error')),
+      ),
+      data: (fabrics) {
+        final Set<String> categories = fabrics.map((f) => f.materialName).toSet();
+        final List<String> tabs = categories.toList();
+
+        return DefaultTabController(
+          length: tabs.length, // количество вкладок = количеству материалов
+          child: Scaffold(
+            appBar: AppBar(
+              title: const Text('Каталог тканей'),
+              bottom: TabBar(
+                isScrollable: true, 
+                tabs: tabs.map((name) => Tab(text: name)).toList(),
+              ),
+            ),
+            body: TabBarView(
+              // для каждой вкладки свой экран
+              children: tabs.map((categoryName) {
+                final categoryFabrics = fabrics
+                    .where((fabric) => fabric.materialName == categoryName)
+                    .toList();
+
+                return _FabricGrid(fabrics: categoryFabrics);
+              }).toList(),
+            ),
+          ),
+        );
+      },
     );
   }
 }
@@ -61,7 +73,7 @@ class _FabricGrid extends ConsumerWidget {
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           child: InkWell(
             onTap: () {
-              // переход к конструктору заказа
+              // TODO: переход к конструктору заказа
               ref.read(orderProvider.notifier).selectFabric(fabric);
               print('Выбрана ткань: ${fabric.patternName}');
             },
