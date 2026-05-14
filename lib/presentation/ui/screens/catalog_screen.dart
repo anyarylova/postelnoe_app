@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:postelnoe_app/presentation/providers/catalog_provider.dart';
 import 'package:postelnoe_app/presentation/providers/order_provider.dart';
 import '../../../domain/entities/fabric.dart';
+import 'order_screen.dart';
 
 class CatalogScreen extends ConsumerWidget {
   const CatalogScreen({super.key});
@@ -73,9 +74,10 @@ class _FabricGrid extends ConsumerWidget {
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           child: InkWell(
             onTap: () {
-              // TODO: переход к конструктору заказа
               ref.read(orderProvider.notifier).selectFabric(fabric);
-              print('Выбрана ткань: ${fabric.patternName}');
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => const OrderScreen()),
+              );
             },
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
