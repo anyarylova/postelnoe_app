@@ -1,5 +1,5 @@
-import 'fabric.dart';
-import 'bedding_set_type.dart';
+import '../../domain/entities/fabric.dart';
+import '../../domain/entities/bedding_set_type.dart';
 
 final List<Fabric> mockFabrics = [
   Fabric(

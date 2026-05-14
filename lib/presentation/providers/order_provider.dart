@@ -1,9 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../models/fabric.dart';
-import '../models/bedding_set_type.dart';
-import '../models/product_item.dart';
-import '../models/mock_data.dart'; // тестовые данные
-import '../services/price_calculator.dart';
+import '../../domain/entities/fabric.dart';
+import '../../domain/entities/bedding_set_type.dart';
+import '../../domain/entities/product_item.dart';
+import '../../data/datasources/mock_data.dart'; // тестовые данные
+import '../../domain/services/price_calculator.dart';
 
 // STATE
 class OrderState {

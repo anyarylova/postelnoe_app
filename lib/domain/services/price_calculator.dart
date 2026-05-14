@@ -1,6 +1,6 @@
-import '../models/bedding_set_type.dart';
-import '../models/fabric.dart';
-import '../models/product_item.dart';
+import '../entities/bedding_set_type.dart';
+import '../entities/fabric.dart';
+import '../entities/product_item.dart';
 
 class PriceCalculator {
   static const int elasticSheetExtraPrice = 500; // Наценка за резинку в рублях (для стандартов)

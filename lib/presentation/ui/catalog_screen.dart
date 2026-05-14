@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:postelnoe_app/providers/order_provider.dart';
-import '../models/fabric.dart';
-import '../models/mock_data.dart'; // тестовые данные
+import 'package:postelnoe_app/presentation/providers/order_provider.dart';
+import '../../domain/entities/fabric.dart';
+import '../../data/datasources/mock_data.dart'; // тестовые данные
 
 class CatalogScreen extends ConsumerWidget {
   const CatalogScreen({super.key});

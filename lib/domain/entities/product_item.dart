@@ -1,5 +1,5 @@
-import 'package:postelnoe_app/models/bedding_set_type.dart';
-import 'package:postelnoe_app/models/fabric.dart';
+import 'package:postelnoe_app/domain/entities/bedding_set_type.dart';
+import 'package:postelnoe_app/domain/entities/fabric.dart';
 
 enum ProductType { pillowcase, duvetCover, sheet }
 
