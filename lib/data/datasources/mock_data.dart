@@ -7,7 +7,7 @@ final List<Fabric> mockFabrics = [
     patternName: 'Милашки',
     materialName: 'Бязь',
     imageUrl: 'assets/images/byaz/cuties.jpg',
-    pricePerMeter: 450.0,
+    pricePerMeter: 250.0,
     isAvailable: true,
     prices: {
       BeddingSetType.singleAndHalf: 1900,
@@ -21,7 +21,7 @@ final List<Fabric> mockFabrics = [
   Fabric(
     id: '2',
     patternName: 'Синий',
-    materialName: 'Страйп Сатин', // Другой материал -> Другие цены
+    materialName: 'Страйп Сатин',
     imageUrl: 'assets/images/stripe_satin/blue.jpg',
     pricePerMeter: 800.0,
     isAvailable: true,
@@ -37,7 +37,7 @@ final List<Fabric> mockFabrics = [
   Fabric(
     id: '3',
     patternName: 'Графит',
-    materialName: 'Страйп Сатин', // Другой материал -> Другие цены
+    materialName: 'Страйп Сатин',
     imageUrl: 'assets/images/stripe_satin/grafit.jpg',
     pricePerMeter: 800.0,
     isAvailable: true,
@@ -53,7 +53,7 @@ final List<Fabric> mockFabrics = [
   Fabric(
     id: '4',
     patternName: 'Пыльная роза',
-    materialName: 'Страйп Сатин', // Другой материал -> Другие цены
+    materialName: 'Страйп Сатин',
     imageUrl: 'assets/images/stripe_satin/dusty_rose.jpg',
     pricePerMeter: 800.0,
     isAvailable: true,
@@ -71,7 +71,7 @@ final List<Fabric> mockFabrics = [
     patternName: 'Первая любовь',
     materialName: 'Бязь',
     imageUrl: 'assets/images/byaz/first_love.jpg',
-    pricePerMeter: 450.0,
+    pricePerMeter: 250.0,
     isAvailable: true,
     prices: {
       BeddingSetType.singleAndHalf: 1900,
@@ -87,7 +87,7 @@ final List<Fabric> mockFabrics = [
     patternName: 'Тропикана',
     materialName: 'Бязь',
     imageUrl: 'assets/images/byaz/tropikana.jpg',
-    pricePerMeter: 450.0,
+    pricePerMeter: 250.0,
     isAvailable: true,
     prices: {
       BeddingSetType.singleAndHalf: 1900,
@@ -103,7 +103,7 @@ final List<Fabric> mockFabrics = [
     patternName: 'Джулия',
     materialName: 'Поплин',
     imageUrl: 'assets/images/poplin/julia.jpg',
-    pricePerMeter: 450.0,
+    pricePerMeter: 350.0,
     isAvailable: true,
     prices: {
       BeddingSetType.singleAndHalf: 2100,
@@ -119,7 +119,7 @@ final List<Fabric> mockFabrics = [
     patternName: 'Киска',
     materialName: 'Поплин',
     imageUrl: 'assets/images/poplin/kitty.jpg',
-    pricePerMeter: 450.0,
+    pricePerMeter: 350.0,
     isAvailable: true,
     prices: {
       BeddingSetType.singleAndHalf: 2100,
@@ -135,7 +135,7 @@ final List<Fabric> mockFabrics = [
     patternName: 'Вальс',
     materialName: 'Поплин',
     imageUrl: 'assets/images/poplin/waltz.jpg',
-    pricePerMeter: 450.0,
+    pricePerMeter: 350.0,
     isAvailable: true,
     prices: {
       BeddingSetType.singleAndHalf: 2100,

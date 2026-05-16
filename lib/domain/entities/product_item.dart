@@ -17,7 +17,6 @@ class ProductItem {
   final double length;
   final bool? elastic; // Для простыней на резинке
   final Fabric? fabric;
-  // final BeddingSize? preset; // Выбранный пресет размера
 
   ProductItem({
     required this.type,
@@ -25,10 +24,9 @@ class ProductItem {
     required this.length,
     this.elastic,
     this.fabric,
-    // this.preset,
   });
 
-  // Логика расчета расхода ткани в кв.метрах
+  // расчет расхода ткани в кв.метрах
   double calculateArea() {
     double multiplier = (type == ProductType.sheet) ? 1.0 : 2.0;
     return ((width + 10) * (length + 10) * multiplier) / 10000;
@@ -87,7 +85,13 @@ class BeddingSet {
         ]);
 
       case BeddingSetType.custom:
-        return BeddingSet(type: type, items: []); // Пустой список для ручного наполнения
+        return BeddingSet(type: type, items: [
+          ProductItem(type: ProductType.duvetCover, width: 145, length: 215),
+          ProductItem(type: ProductType.duvetCover, width: 145, length: 215),
+          ProductItem(type: ProductType.sheet, width: 240, length: 260, elastic: isElastic),
+          ProductItem(type: ProductType.pillowcase, width: 70, length: 70),
+          ProductItem(type: ProductType.pillowcase, width: 70, length: 70),
+        ]);
     }
   }
 

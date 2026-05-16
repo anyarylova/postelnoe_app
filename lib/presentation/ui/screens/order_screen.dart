@@ -4,10 +4,33 @@ import 'package:postelnoe_app/domain/entities/bedding_set_type.dart';
 import '../../../domain/entities/product_item.dart';
 import '../../providers/order_provider.dart';
 
-class OrderScreen extends ConsumerWidget {
-  // final ProductItem item;
+// TODO: корзина (для нескольких товаров)
+class OrderScreen extends ConsumerStatefulWidget {
 
-  const OrderScreen({super.key, /*required this.item*/});
+  const OrderScreen({super.key});
+
+  @override
+  ConsumerState<OrderScreen> createState() => _OrderScreenState();
+}
+
+class _OrderScreenState extends ConsumerState<OrderScreen> {
+  final _duvetWidthCtrl = TextEditingController(text: '145');
+  final _duvetLengthCtrl = TextEditingController(text: '215');
+  final _sheetWidthCtrl = TextEditingController(text: '150');
+  final _sheetLengthCtrl = TextEditingController(text: '220');
+  final _pillowWidthCtrl = TextEditingController(text: '70');
+  final _pillowLengthCtrl = TextEditingController(text: '70');
+
+  @override
+  void dispose() {
+    _duvetWidthCtrl.dispose();
+    _duvetLengthCtrl.dispose();
+    _sheetWidthCtrl.dispose();
+    _sheetLengthCtrl.dispose();
+    _pillowWidthCtrl.dispose();
+    _pillowLengthCtrl.dispose();
+    super.dispose();
+  }
 
   String _getTypeName(BeddingSetType type) {
     switch (type) {
@@ -20,8 +43,15 @@ class OrderScreen extends ConsumerWidget {
     }
   }
 
+  void _onSizeChanged(ProductType type, String widthStr, String lengthStr) {
+    final width = double.tryParse(widthStr) ?? 0.0;
+    final length = double.tryParse(lengthStr) ?? 0.0;
+
+    ref.read(orderProvider.notifier).updateCustomSizes(type, width, length);
+  }
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final orderState = ref.watch(orderProvider);
     final fabric = orderState.selectedFabric;
     final isElastic = orderState.currentSet.items.any((element) => 
@@ -39,7 +69,7 @@ class OrderScreen extends ConsumerWidget {
                 borderRadius: BorderRadius.circular(12),
                 child: Image.asset(
                   fabric.imageUrl,
-                  height: 200,
+                  height: 180,
                   width: double.infinity,
                   fit: BoxFit.cover,
                   errorBuilder: (context, error, stackTrace) => Container(height: 200, color: Colors.grey, child: Center(child: Icon(Icons.image),),)
@@ -85,7 +115,7 @@ class OrderScreen extends ConsumerWidget {
                 ),
               ),
               const SizedBox(height: 16),
-
+              // стандартные размеры
               if (orderState.currentSet.type != BeddingSetType.custom) 
                 CheckboxListTile(
                   contentPadding: EdgeInsets.zero,
@@ -96,20 +126,31 @@ class OrderScreen extends ConsumerWidget {
                   },
                   controlAffinity: ListTileControlAffinity.leading,
                 ),
-              if (orderState.currentSet.type == BeddingSetType.custom) 
-                Container(
-                  padding: EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: Colors.blue.shade50,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: const Text(
-                    'Выбран индивидуальный пошив. Точная цена будет рассчитана после ввода ваших размеров.',
-                    style: TextStyle(color: Colors.blue),
-                  ),
+              // кастомные размеры
+              if (orderState.currentSet.type == BeddingSetType.custom) ...[
+                const SizedBox(height: 24),
+                const Text(
+                  'Введите ваши размеры (в сантиметрах):',
+                  style: TextStyle(fontWeight: FontWeight.bold, color: Colors.indigo),
                 ),
+                const SizedBox(height: 16),
+
+                _buildSizeInput('Пододеяльник', _duvetWidthCtrl, _duvetLengthCtrl, ProductType.duvetCover),
+                _buildSizeInput('Простыня', _sheetWidthCtrl, _sheetLengthCtrl, ProductType.sheet),
+                _buildSizeInput('Наволочка', _pillowWidthCtrl, _pillowLengthCtrl, ProductType.pillowcase),
+
+                CheckboxListTile(
+                  contentPadding: EdgeInsets.zero,
+                  title: const Text('Простыня на резинке (+500 Руб.)'),
+                  value: isElastic,
+                  onChanged: (bool? value) {
+                    ref.read(orderProvider.notifier).toggleElastic(value ?? false);
+                  },
+                  controlAffinity: ListTileControlAffinity.leading,
+                ),
+              ],
               
-              const SizedBox(height: 40),
+              const SizedBox(height: 32),
 
               // итоговая цена
               Container(
@@ -159,6 +200,49 @@ class OrderScreen extends ConsumerWidget {
           )
         ),
       ),
+    );
+  }
+  Widget _buildSizeInput(String label, TextEditingController widthCtrl, TextEditingController lengthCtrl, ProductType type) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 16.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Expanded(
+            flex: 3,
+            child: Text(label, style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 14))
+          ),
+          Expanded(
+            flex: 2,
+            child: TextFormField(
+              controller: widthCtrl,
+              keyboardType: TextInputType.number,
+              decoration: const InputDecoration(
+                labelText: 'Ширина',
+                suffixText: 'см',
+                border: OutlineInputBorder(),
+                contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+              ),
+              onChanged: (value) => _onSizeChanged(type, widthCtrl.text, lengthCtrl.text),   
+            )
+          ),
+          const SizedBox(width: 8),
+          Expanded(
+            flex: 2,
+            child: TextFormField(
+              controller: lengthCtrl,
+              keyboardType: TextInputType.number,
+              decoration: const InputDecoration(
+                labelText: 'Длина',
+                suffixText: 'см',
+                border: OutlineInputBorder(),
+                contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+              ),
+              onChanged: (value) => _onSizeChanged(type, widthCtrl.text, lengthCtrl.text),   
+            )
+          ),
+        ],
+      ), 
     );
   }
 }

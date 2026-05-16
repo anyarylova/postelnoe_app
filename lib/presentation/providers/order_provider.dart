@@ -94,6 +94,38 @@ class OrderNotifier extends StateNotifier<OrderState> {
       totalPrice: newPrice,
     );
   }
+  void updateCustomSizes(ProductType type, double width, double length) {
+    if (state.currentSet.type != BeddingSetType.custom) {
+      return;
+    }
+    final updatedItems = state.currentSet.items.map((item) {
+      if (item.type == type) {
+        return ProductItem(
+          type: item.type,
+          width: width,
+          length: length,
+          elastic: item.elastic,
+          fabric: item.fabric,
+        );
+      }
+      return item;
+    }).toList();
+
+    final updatedSet = BeddingSet(
+      type: BeddingSetType.custom,
+      items: updatedItems
+    );
+
+    final updatedPrice = _calculator.calculatePrice(
+      fabric: state.selectedFabric,
+      set: updatedSet
+    );
+
+    state = state.copyWith(
+      currentSet: updatedSet,
+      totalPrice: updatedPrice
+    );
+  }
 }
 
 // PROVIDER
