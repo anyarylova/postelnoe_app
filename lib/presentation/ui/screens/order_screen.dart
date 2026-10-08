@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:postelnoe_app/domain/entities/bedding_set_type.dart';
 import '../../../domain/entities/product_item.dart';
 import '../../providers/order_provider.dart';
+import '../../providers/cart_provider.dart';
 
-// TODO: корзина (для нескольких товаров)
 class OrderScreen extends ConsumerStatefulWidget {
 
   const OrderScreen({super.key});
@@ -190,11 +190,15 @@ class _OrderScreenState extends ConsumerState<OrderScreen> {
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                   ),
                   onPressed: () {
+                    ref.read(cartProvider.notifier).addItem(orderState);
+                    
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Заказ формируется...')),
+                      const SnackBar(content: Text('Комплект добавлен в корзину'), duration: Duration(seconds: 2)),
                     );
-                  }, 
-                  child: const Text('Оформить заказ', style: TextStyle(fontSize: 16)),),
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('В корзину', style: TextStyle(fontSize: 16)),
+                ),
               )
             ],
           )

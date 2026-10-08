@@ -33,11 +33,10 @@ class PriceCalculator {
     double linearMeters = totalArea / 2.2; 
 
     double materialCost = linearMeters * fabric.pricePerMeter;
+    
+    double finalPrice = 1.5 * materialCost + 150;
+    int roundedPrice = (finalPrice / 100).ceil() * 100;
 
-    // итоговая формула:  
-    // себестоимость материалов (цена за метр*количество на изделие) + 150 + работа(>= 100% от себестоимость)
-    double finalPrice = materialCost + 1.5 * materialCost + 150;
-
-    return hasElastic ? (finalPrice / 100).ceil() * 100 + elasticSheetExtraPrice : (finalPrice / 100).ceil() * 100;
+    return hasElastic ? roundedPrice + elasticSheetExtraPrice : roundedPrice;
   }
 }

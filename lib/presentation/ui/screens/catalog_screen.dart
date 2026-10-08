@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:postelnoe_app/presentation/providers/cart_provider.dart';
 import 'package:postelnoe_app/presentation/providers/catalog_provider.dart';
 import 'package:postelnoe_app/presentation/providers/order_provider.dart';
+import 'package:postelnoe_app/presentation/ui/screens/cart_screen.dart';
 import '../../../domain/entities/fabric.dart';
 import 'order_screen.dart';
 
@@ -28,6 +30,28 @@ class CatalogScreen extends ConsumerWidget {
           child: Scaffold(
             appBar: AppBar(
               title: const Text('Каталог тканей'),
+              actions: [
+                Consumer(
+                    builder: (context, ref, child) {
+                      final cartItemsCount = ref.watch(cartProvider).length;
+                      return IconButton(
+                        onPressed: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => const CartScreen(),
+                            ),
+                          );
+                        },
+                        icon: Badge(
+                          isLabelVisible: cartItemsCount > 0, 
+                          label: Text(cartItemsCount.toString()),
+                          child: const Icon(Icons.shopping_cart_outlined),
+                        ),
+                      );
+                    },
+                  ),
+                  const SizedBox(width: 8),
+              ],
               bottom: TabBar(
                 isScrollable: true, 
                 tabs: tabs.map((name) => Tab(text: name)).toList(),
