@@ -67,13 +67,29 @@ class _OrderScreenState extends ConsumerState<OrderScreen> {
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(12),
-                child: Image.asset(
-                  fabric.imageUrl,
-                  height: 180,
-                  width: double.infinity,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) => Container(height: 200, color: Colors.grey, child: Center(child: Icon(Icons.image),),)
-                ),
+                child: fabric.imageUrl.startsWith('http')
+                    ? Image.network(
+                        fabric.imageUrl,
+                        height: 180,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                        errorBuilder: (_, __, ___) => Container(
+                          height: 180,
+                          color: Colors.grey.shade200,
+                          child: const Center(child: Icon(Icons.image_not_supported)),
+                        ),
+                      )
+                    : Image.asset(
+                        fabric.imageUrl,
+                        height: 180,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                        errorBuilder: (_, __, ___) => Container(
+                          height: 180,
+                          color: Colors.grey.shade200,
+                          child: const Center(child: Icon(Icons.image_not_supported)),
+                        ),
+                      ),
               ),
               const SizedBox(height: 16),
               Text(

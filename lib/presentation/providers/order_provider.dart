@@ -2,7 +2,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../domain/entities/fabric.dart';
 import '../../domain/entities/bedding_set_type.dart';
 import '../../domain/entities/product_item.dart';
-import '../../data/datasources/mock_data.dart'; // тестовые данные
 import '../../domain/services/price_calculator.dart';
 
 // STATE
@@ -37,17 +36,22 @@ class OrderNotifier extends StateNotifier<OrderState> {
   // НАЧАЛЬНОЕ состояние
   OrderNotifier() : super(_initialState());
 
-  static OrderState _initialState() {
-    final defaultFabric = mockFabrics[0]; // Берем первую ткань из списка
-    final defaultSet = BeddingSet.fromType(BeddingSetType.singleAndHalf); // 1.5-спальное по дефолту
-    
-    final calculator = PriceCalculator();
-    final price = calculator.calculatePrice(fabric: defaultFabric, set: defaultSet);
+  static final Fabric _emptyFabric = Fabric(
+    id: '',
+    patternName: '',
+    materialName: '',
+    imageUrl: '',
+    pricePerMeter: 0,
+    isAvailable: true,
+    prices: {},
+  );
 
+  static OrderState _initialState() {
+    final defaultSet = BeddingSet.fromType(BeddingSetType.singleAndHalf);
     return OrderState(
-      selectedFabric: defaultFabric,
+      selectedFabric: _emptyFabric,
       currentSet: defaultSet,
-      totalPrice: price,
+      totalPrice: 0,
     );
   }
 
