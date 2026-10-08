@@ -1,16 +1,31 @@
-# postelnoe_app
+# Postelnoe App
 
-A new Flutter project.
+Веб-приложение на Flutter для автоматизации малого бизнеса по пошиву постельного белья. Приложение позволяет клиентам выбирать ткани из каталога, конфигурировать комплекты стандартных или нестандартных размеров, рассчитывать стоимость в реальном времени и формировать корзину для заказа.
 
-## Getting Started
+## Ключевые возможности
 
-This project is a starting point for a Flutter application.
+- Интерактивный каталог тканей с группировкой по типу материала.
+- Гибкий конфигуратор комплектов: выбор стандартных размеров или ввод точных габаритов пододеяльников, простыней и наволочек.
+- Динамический расчет стоимости индивидуального пошива.
+- Корзина заказов.
+- Google Таблицы как Headless CMS: Управление ассортиментом и прайсом напрямую через Google Sheets.
 
-A few resources to get you started if this is your first Flutter project:
+## Стек технологий
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- Фреймворк: Flutter
+- Язык: Dart
+- Управление состоянием: Riverpod
+- Сетевые запросы: http
+- Архитектура: Clean Architecture (Domain, Data, Presentation)
+- База данных: Google Sheets + Google Apps Script
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Запуск
+
+1. Через GitHub Actions
+
+
+2. Через терминал (нужен файл `env.json`)
+
+```bash
+flutter run --dart-define-from-file=env.json
+```

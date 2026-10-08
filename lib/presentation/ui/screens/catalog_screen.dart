@@ -19,7 +19,27 @@ class CatalogScreen extends ConsumerWidget {
         body: Center(child: CircularProgressIndicator()),
       ),
       error: (error, stackTrace) => Scaffold(
-        body: Center(child: Text('Что-то пошло не так: $error')),
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(Icons.cloud_off, size: 64, color: Colors.grey),
+                const SizedBox(height: 16),
+                const Text(
+                  'Не удалось загрузить каталог тканей',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 8),
+                ElevatedButton(
+                  onPressed: () => ref.refresh(catalogProvider),
+                  child: const Text('Повторить'),
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
       data: (fabrics) {
         final Set<String> categories = fabrics.map((f) => f.materialName).toSet();
@@ -108,12 +128,19 @@ class _FabricGrid extends ConsumerWidget {
               children: [
                 // картинка ткани
                 Expanded(
-                  child: Image.asset(
-                    fabric.imageUrl,
-                    fit: BoxFit.cover,
-                    errorBuilder: (_, __, ___) => 
-                        const Center(child: Icon(Icons.image_not_supported)),
-                  ),
+                  child: fabric.imageUrl.startsWith('http')
+                      ? Image.network(
+                          fabric.imageUrl,
+                          fit: BoxFit.cover,
+                          errorBuilder: (_, __, ___) =>
+                              const Center(child: Icon(Icons.image_not_supported)),
+                        )
+                      : Image.asset(
+                          fabric.imageUrl,
+                          fit: BoxFit.cover,
+                          errorBuilder: (_, __, ___) =>
+                              const Center(child: Icon(Icons.image_not_supported)),
+                        ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
